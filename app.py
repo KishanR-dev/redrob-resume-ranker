@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import tempfile
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 import gradio as gr
 import pandas as pd
@@ -22,7 +22,7 @@ def _load_candidates(file_path: str) -> list[dict[str, Any]]:
         raise ValueError("JSON input must be a list of candidate objects")
 
 
-def process(file: Any) -> tuple[pd.DataFrame | None, str | None, str]:
+def process(file: Any) -> tuple[List[Dict[str, Any]] | None, str | None, str]:
     if file is None:
         return None, None, "Upload a .json or .jsonl file"
 
@@ -46,7 +46,7 @@ def process(file: Any) -> tuple[pd.DataFrame | None, str | None, str]:
         tmp_csv.close()
         df.to_csv(tmp_csv_path, index=False)
 
-        return df, tmp_csv_path, f"Processed {len(candidates)} candidates. Returning top {len(df)}."
+        return rows, tmp_csv_path, f"Processed {len(candidates)} candidates. Returning top {len(df)}."
     except Exception as exc:  # pragma: no cover
         return None, None, f"Error: {exc}"
 
@@ -68,4 +68,4 @@ with gr.Blocks() as demo:
         outputs=[results_table, download_file, status_box],
     )
 
-demo.launch(share=True)
+demo.launch(server_name="0.0.0.0", server_port=7860, share=False)
