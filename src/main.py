@@ -19,6 +19,7 @@ def run_rank(candidates_path: str, out_csv: str, top_k: int) -> None:
         w = csv.writer(f)
         w.writerow(["candidate_id", "rank", "score", "reasoning"])
         prev_score = None
+        prev_candidate_id = ""
         for row in top:
             score_value = row.score
             if prev_score is not None and score_value > prev_score:

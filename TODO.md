@@ -1,6 +1,11 @@
-- [ ] Pin Gradio dependency to avoid Python 3.13 audioop/pyaudioop startup failure on HF
-- [ ] Add runtime.txt to force stable Python version on HF Spaces
-- [ ] Commit with natural human-style message
-- [ ] Push changes to GitHub main
-- [ ] Upload updated files to Hugging Face Space
-- [ ] Verify Space startup status (critical-path)
+- [x] Pin Gradio dependency to avoid Python 3.13 audioop/pyaudioop startup failure on HF
+- [x] Add runtime.txt to force stable Python version on HF Spaces
+- [x] Commit with natural human-style message
+- [x] Push changes to GitHub main
+- [x] Upload updated files to Hugging Face Space
+- [x] Verify Space startup status (critical-path)
+
+- [ ] Add README Quick Facts markdown table with clearly visible emoji cells
+- [ ] Perform low-risk optimization pass in app.py/src (typing/readability/dead imports/errors)
+- [ ] Run and record full test suite results (pytest)
+- [ ] Commit and push optimization updates to GitHub + Hugging Face Space

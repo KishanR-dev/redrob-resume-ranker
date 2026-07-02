@@ -14,6 +14,16 @@ pinned: false
 
 This repository contains a production-ready, deterministic ranking system for the **India Runs Data and AI Challenge**.
 
+## Quick Facts
+
+| Item | Value |
+|---|---|
+| 📄 Space card emoji | `📄` (configured in YAML frontmatter as `emoji: 📄`) |
+| 🧠 SDK | Gradio `5.38.0` |
+| 🐍 Python runtime | `3.10` (`runtime.txt`) |
+| ⚙️ App entrypoint | `app.py` |
+| ✅ Output schema | `candidate_id,rank,score,reasoning` |
+
 ## Objectives covered
 
 - Rank candidates against the provided JD (Senior AI Engineer — Founding Team).

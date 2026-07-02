@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+import csv
 import json
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import gradio as gr
-import pandas as pd
 
 from src.ranker import rank_candidates
 
@@ -22,7 +22,7 @@ def _load_candidates(file_path: str) -> list[dict[str, Any]]:
         raise ValueError("JSON input must be a list of candidate objects")
 
 
-def process(file: Any) -> tuple[List[Dict[str, Any]] | None, str | None, str]:
+def process(file: Any) -> tuple[list[dict[str, Any]] | None, str | None, str]:
     if file is None:
         return None, None, "Upload a .json or .jsonl file"
 
@@ -39,14 +39,14 @@ def process(file: Any) -> tuple[List[Dict[str, Any]] | None, str | None, str]:
             }
             for item in ranked
         ]
-        df = pd.DataFrame(rows, columns=["candidate_id", "rank", "score", "reasoning"])
-
-        tmp_csv = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
+        tmp_csv = tempfile.NamedTemporaryFile(delete=False, suffix=".csv", mode="w", newline="", encoding="utf-8")
         tmp_csv_path = tmp_csv.name
+        writer = csv.DictWriter(tmp_csv, fieldnames=["candidate_id", "rank", "score", "reasoning"])
+        writer.writeheader()
+        writer.writerows(rows)
         tmp_csv.close()
-        df.to_csv(tmp_csv_path, index=False)
 
-        return rows, tmp_csv_path, f"Processed {len(candidates)} candidates. Returning top {len(df)}."
+        return rows, tmp_csv_path, f"Processed {len(candidates)} candidates. Returning top {len(rows)}."
     except Exception as exc:  # pragma: no cover
         return None, None, f"Error: {exc}"
 
@@ -68,4 +68,4 @@ with gr.Blocks() as demo:
         outputs=[results_table, download_file, status_box],
     )
 
-demo.launch(server_name="0.0.0.0", server_port=7860, share=True)
+demo.launch(server_name="0.0.0.0", server_port=7860, share=False)
