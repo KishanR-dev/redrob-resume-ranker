@@ -68,4 +68,4 @@ with gr.Blocks() as demo:
         outputs=[results_table, download_file, status_box],
     )
 
-demo.launch(server_name="0.0.0.0", server_port=7860, share=False)
+demo.launch(share=True)
